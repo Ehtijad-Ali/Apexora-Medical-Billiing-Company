@@ -1,0 +1,181 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bricolage+Grotesque:wght@500;600;700;800&display=swap');
+
+@theme {
+  --color-primary: #C8102E;
+  --color-secondary: #1B365D;
+  --color-accent: #14B8A6;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: white;
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 100px; }
+  ::-webkit-scrollbar-thumb:hover { background: #a00d24; }
+
+  /* Text selection */
+  ::selection { background: rgba(200, 16, 46, 0.12); color: var(--color-primary); }
+
+  /* Focus ring */
+  :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: 6px; }
+}
+
+@layer utilities {
+  .glass {
+    background-color: rgb(255 255 255 / 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgb(255 255 255 / 0.2);
+  }
+  .glass-dark {
+    background-color: rgb(15 23 42 / 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgb(255 255 255 / 0.1);
+  }
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, var(--color-primary), #ef4444);
+  }
+  .section-label {
+    color: var(--color-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.875rem;
+  }
+  .gradient-border {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    background-image: linear-gradient(white, white),
+                      linear-gradient(135deg, rgba(200,16,46,0.4), rgba(20,184,166,0.4));
+    background-origin: border-box;
+  }
+}
+
+/* ─── Flip card ──────────────────────────────────────────────────── */
+.perspective-1000 { perspective: 1000px; }
+.preserve-3d      { transform-style: preserve-3d; }
+.backface-hidden  { backface-visibility: hidden; }
+.rotate-y-180     { transform: rotateY(180deg); }
+
+/* ─── Outline text ───────────────────────────────────────────────── */
+.outline-text { -webkit-text-stroke: 1px currentColor; color: transparent; }
+
+/* ─── Scroll progress bar ────────────────────────────────────────── */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  transform-origin: 0%;
+  z-index: 9999;
+  will-change: transform;
+}
+
+/* ─── Shimmer ────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position:  200% 0; }
+}
+.shimmer-text {
+  background: linear-gradient(90deg, var(--color-primary) 0%, #ff6b6b 40%, var(--color-primary) 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ─── Animated gradient (CTA) ────────────────────────────────────── */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0%   50%; }
+  50%       { background-position: 100% 50%; }
+}
+.animated-gradient-bg {
+  background: linear-gradient(135deg, #1B365D, #2a1a3e, #1B365D, #1a2d4a);
+  background-size: 400% 400%;
+  animation: gradient-shift 10s ease infinite;
+  will-change: background-position;
+}
+
+/* ─── Background patterns ────────────────────────────────────────── */
+.dot-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(27,54,93,0.12) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+.grid-pattern {
+  background-image:
+    linear-gradient(to right, rgba(27,54,93,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27,54,93,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── Cursor spotlight (Features) ───────────────────────────────── */
+.feature-spotlight { position: relative; }
+.feature-spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    500px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
+    rgba(200, 16, 46, 0.06),
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Service card hover ─────────────────────────────────────────── */
+.service-card-hover { transition: box-shadow 0.3s ease, transform 0.3s ease; }
+.service-card-hover:hover {
+  box-shadow: 0 20px 60px -12px rgba(200, 16, 46, 0.12), 0 0 0 1px rgba(200, 16, 46, 0.08);
+}
+
+/* ─── Float animation ────────────────────────────────────────────── */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+.animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+
+/* ─── Wave (Footer) ──────────────────────────────────────────────── */
+.wave-clip { clip-path: ellipse(65% 100% at 50% 100%); }
+
+/* ════════════════════════════════════════════════════════════════════
+   PERFORMANCE
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Promote blur decorations to GPU so main thread stays free */
+.blur-3xl, .blur-2xl { will-change: transform; transform: translateZ(0); }
+
+/* Anchor scroll offset for fixed nav + topbar */
+[id] { scroll-margin-top: 96px; }
+
+/* Respect user motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
